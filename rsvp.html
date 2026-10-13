@@ -81,7 +81,7 @@
     <div class="note">
       <h3>알고 쓰면 좋은 것</h3>
       <ul>
-        <li><b>빠를수록 이해도는 떨어집니다.</b> 가벼운 글엔 좋지만, 어려운 글은 천천히 읽는 편이 낫습니다. 시는 200어절/분 이하를 추천합니다.</li>
+        <li><b>빠를수록 이해도는 떨어집니다.</b> 가벼운 글엔 좋지만, 어려운 글은 천천히 읽는 편이 낫습니다. 시는 조금 느리게 읽어도 좋습니다.</li>
         <li><b>되돌아 읽기가 어렵습니다.</b> 놓쳤다면 왼쪽으로 밀거나 ◀ 버튼으로 돌아가세요.</li>
         <li><b>자동으로 숨 쉴 틈을 줍니다.</b> 쉼표·마침표·행·문단 끝에서 잠깐 더 머뭅니다.</li>
       </ul>
@@ -98,7 +98,7 @@
 <script>
   (function () {
     const seosi = document.getElementById("seosi").textContent;
-    const reader = new RSVP.Reader(document.getElementById("reader"), { key: "practice", text: seosi, title: "서시 · 윤동주", wpm: 175 });
+    const reader = new RSVP.Reader(document.getElementById("reader"), { key: "practice.v2", text: seosi, title: "서시 · 윤동주", wpm: 300 });
 
     const tabs = document.querySelectorAll(".sources .chip");
     const mine = document.getElementById("mine");
