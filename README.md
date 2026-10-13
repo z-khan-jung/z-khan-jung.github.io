@@ -10,7 +10,7 @@ RSVP(Rapid Serial Visual Presentation, 신속 순차 시각 제시) 방식으로
 
 빌드 단계 없는 정적 사이트입니다.
 - `index.html` 자기소개 (RSVP 재생 + 줄글 + 약력)
-- `rsvp.html` RSVP 소개와 체험 (윤동주 「서시」, 직접 입력, 전체 화면 모드)
+- `rsvp.html` RSVP 소개와 체험 (윤동주 「별 헤는 밤」, 직접 입력, 전체 화면 모드)
 - `rsvp.js` 읽기 엔진, `style.css` 스타일
 
 ## 고치는 곳
