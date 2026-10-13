@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>z-khan-jung · 한 단어씩 읽는 자기소개</title>
+<meta name="description" content="RSVP(신속 순차 시각 제시) 기법으로 읽는 자기소개, 그리고 직접 체험해 보는 속독 연습장.">
+<meta property="og:title" content="한 단어씩 읽는 자기소개">
+<meta property="og:description" content="RSVP 속독 기법으로 저를 소개합니다. 직접 글을 넣어 체험해 보세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23e0312b%22/%3E%3Ctext x=%2216%22 y=%2223%22 font-size=%2218%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22700%22%3ER%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!--
+  ✏️ 자기소개 글은 아래 <script id="intro-text"> 안을 고치면 됩니다.
+  - 빈 줄 = 문단 구분 (읽을 때 조금 더 오래 멈춥니다)
+  - 문장 부호(. , ! ?) 뒤에서는 자동으로 잠깐 멈춥니다
+-->
+<script id="intro-text" type="text/plain">
+안녕하세요. 저는 GitHub에서 z-khan-jung이라는 이름을 쓰고 있습니다.
+
+지금 보고 계신 이 방식은 RSVP라고 부릅니다. 글자를 한 자리에 하나씩 띄워서, 눈을 움직이지 않고 읽게 하는 기법이에요.
+
+저는 많이 읽는 것을 좋아하지만, 늘 시간이 부족했습니다. 그래서 속독 앱을 써 보다가, 이 방식이 왜 빠른지 궁금해졌습니다.
+
+이 페이지는 그 궁금증에서 출발했습니다. 제 소개를 이 방식으로 보여드리고, 아래에서 직접 체험해 보실 수 있게 만들었습니다.
+
+가운데 빨간 글자에 시선을 고정해 보세요. 속도를 올려도 생각보다 잘 읽힌다는 걸 느끼실 거예요.
+
+끝까지 읽어 주셔서 감사합니다. 아래로 내려가서 원하는 글을 넣어 보세요!
+</script>
+
+<header class="top">
+  <a class="brand" href="#">z-khan-jung</a>
+  <nav>
+    <a href="#about">RSVP란?</a>
+    <a href="#practice">체험하기</a>
+    <button id="theme-toggle" class="icon-btn" aria-label="밝기 전환" title="밝기 전환">◐</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 1. 자기소개 -->
+  <section class="hero">
+    <p class="eyebrow">Hello, I'm z-khan-jung</p>
+    <h1>제 소개는 <span class="accent">한 단어씩</span> 읽어 주세요</h1>
+    <p class="lede">재생 버튼을 누르고 화면 가운데 <b class="accent">빨간 글자</b>만 보세요. 눈을 움직이지 않아도 글이 읽힙니다.</p>
+    <div id="intro-reader"></div>
+  </section>
+
+  <!-- 2. 기법 소개 -->
+  <section id="about" class="about">
+    <h2>방금 경험하신 것: RSVP</h2>
+    <p class="section-lede">
+      <b>RSVP</b>(Rapid Serial Visual Presentation, 신속 순차 시각 제시)는 글을 줄 단위로 훑는 대신,
+      화면의 <b>고정된 한 자리</b>에 단어를 하나씩 빠르게 바꿔 보여주는 읽기 방식입니다.
+      ‘속독속독’, Spritz, 각종 스피드 리딩 앱이 이 원리를 씁니다.
+    </p>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">자<b class="accent">기</b>소개</span></div>
+        <h3>RSVP · 제자리 읽기</h3>
+        <p>보통 읽을 때 눈은 단어 사이를 뛰어다니며(도약 안구 운동) 시간을 씁니다. RSVP는 단어가 눈으로 <em>찾아오게</em> 해서 그 이동을 없앱니다.</p>
+      </article>
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">read<b class="accent">i</b>ng</span></div>
+        <h3>ORP · 최적 인식 지점</h3>
+        <p>단어마다 가운데보다 살짝 앞 글자를 빨갛게 칠하고, 그 글자가 늘 같은 자리에 오도록 정렬합니다. 시선이 한 점에 머물러도 단어 전체가 한눈에 들어옵니다.</p>
+      </article>
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">의미 <b class="accent">덩</b>어리로</span></div>
+        <h3>청킹 · 의미 덩어리</h3>
+        <p>한 번에 한 단어가 아니라 2~3어절씩 묶어 보여주는 방식입니다. 조사가 붙는 한국어는 어절 단위로 끊으면 자연스럽게 의미 덩어리가 됩니다.</p>
+      </article>
+    </div>
+
+    <div class="note">
+      <h3>솔직한 주의사항</h3>
+      <ul>
+        <li><b>빠를수록 이해도는 떨어집니다.</b> 읽기 연구들은 속도와 이해 사이에 뚜렷한 맞교환이 있다고 봅니다. 뉴스·가벼운 글에는 좋지만, 어려운 글은 천천히 읽는 편이 낫습니다.</li>
+        <li><b>되돌아 읽기가 어렵습니다.</b> 놓친 부분을 다시 보려면 ← 키나 ‘이전’ 버튼을 쓰세요.</li>
+        <li><b>문장 끝에서는 자동으로 잠깐 멈춥니다.</b> 쉼표·마침표·문단 사이에서 뇌가 정리할 시간을 주기 위해서입니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. 체험하기 -->
+  <section id="practice" class="practice">
+    <h2>직접 해 보기</h2>
+    <p class="section-lede">예시 글을 고르거나, 읽고 싶은 글을 붙여 넣으세요. 처음엔 250어절/분 정도로 시작해서 조금씩 올려 보세요.</p>
+
+    <div class="samples" id="samples" role="tablist" aria-label="예시 글"></div>
+
+    <div class="input-wrap">
+      <label for="custom-text" class="input-label">내 글 넣기</label>
+      <textarea id="custom-text" rows="5" placeholder="여기에 기사, 메모, 이메일 등 아무 글이나 붙여 넣으세요."></textarea>
+      <div class="input-actions">
+        <span id="text-stats" class="muted"></span>
+        <button id="load-custom" class="btn primary">이 글로 읽기</button>
+      </div>
+    </div>
+
+    <div id="practice-reader"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>
+    만든 사람: <a href="https://github.com/z-khan-jung">@z-khan-jung</a> ·
+    단축키: <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd><kbd>→</kbd> 이전/다음 · <kbd>↑</kbd><kbd>↓</kbd> 속도
+  </p>
+  <p class="muted">예시 글 중 「서시」(윤동주)와 게티즈버그 연설(링컨)은 저작권 보호 기간이 끝난 공유 저작물이며, 나머지는 이 페이지를 위해 직접 쓴 글입니다.</p>
+</footer>
+
+<script src="samples.js"></script>
+<script src="rsvp.js"></script>
+</body>
+</html>
