@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSVP 속독 체험</title>
+<meta name="description" content="한 단어씩 제자리에서 읽는 RSVP 속독 기법 소개와 체험. 윤동주 「서시」나 직접 넣은 글로 읽어 보세요.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 윤동주 「서시」(1941) — 저작권 보호 기간이 끝난 공유 저작물 -->
+<script id="seosi" type="text/plain">
+죽는 날까지 하늘을 우러러
+한 점 부끄럼이 없기를,
+잎새에 이는 바람에도
+나는 괴로워했다.
+별을 노래하는 마음으로
+모든 죽어 가는 것을 사랑해야지
+그리고 나한테 주어진 길을
+걸어가야겠다.
+
+오늘 밤에도 별이 바람에 스치운다.
+</script>
+
+<header class="top">
+  <a class="brand" href="./">← 정직한</a>
+  <nav>
+    <button id="theme-toggle" class="icon-btn" type="button" aria-label="밝기 전환" title="밝기 전환">◐</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero compact">
+    <p class="eyebrow">Rapid Serial Visual Presentation</p>
+    <h1>한 단어씩, <span class="accent">제자리</span>에서 읽기</h1>
+    <p class="lede">윤동주의 「서시」로 먼저 느껴 보세요. 가운데 빨간 글자에서 눈을 떼지 않는 게 요령입니다.</p>
+
+    <div id="reader"></div>
+
+    <div class="sources" role="tablist" aria-label="읽을 글">
+      <button class="chip" type="button" role="tab" data-src="seosi" aria-selected="true">서시 · 윤동주</button>
+      <button class="chip" type="button" role="tab" data-src="mine" aria-selected="false">✏️ 내 글 넣기</button>
+    </div>
+
+    <div class="input-wrap" id="mine" hidden>
+      <label for="custom-text" class="input-label">읽고 싶은 글을 붙여 넣으세요</label>
+      <textarea id="custom-text" rows="6" placeholder="기사, 메모, 좋아하는 시… 아무 글이나 괜찮아요. 빈 줄은 문단, 줄바꿈은 행으로 읽습니다."></textarea>
+      <div class="input-actions">
+        <span id="text-stats" class="muted"></span>
+        <button id="load-custom" class="btn primary" type="button">이 글로 읽기</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>무엇이 다를까</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">우<b class="accent">러</b>러</span></div>
+        <h3>RSVP · 제자리 읽기</h3>
+        <p>보통 읽을 때 눈은 단어 사이를 건너뛰며 시간을 씁니다. RSVP는 단어가 눈 앞으로 찾아오게 해서 그 이동을 없앱니다. 속독속독, Spritz 같은 앱의 원리입니다.</p>
+      </article>
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">부<b class="accent">끄</b>럼이</span></div>
+        <h3>ORP · 최적 인식 지점</h3>
+        <p>단어 가운데보다 살짝 앞 글자를 빨갛게 칠하고 늘 같은 자리에 둡니다. 시선이 한 점에 머물러도 단어 전체가 한눈에 들어옵니다.</p>
+      </article>
+      <article class="card">
+        <div class="card-demo"><span class="demo-word">별을 <b class="accent">노</b>래하는</span></div>
+        <h3>청킹 · 의미 덩어리</h3>
+        <p>‘묶음’을 2~3으로 바꾸면 여러 어절을 한 번에 보여줍니다. 조사가 붙는 한국어는 어절 단위로 끊으면 자연스럽게 의미 덩어리가 됩니다.</p>
+      </article>
+    </div>
+
+    <div class="note">
+      <h3>알고 쓰면 좋은 것</h3>
+      <ul>
+        <li><b>빠를수록 이해도는 떨어집니다.</b> 가벼운 글엔 좋지만, 어려운 글은 천천히 읽는 편이 낫습니다. 시는 200어절/분 이하를 추천합니다.</li>
+        <li><b>되돌아 읽기가 어렵습니다.</b> 놓쳤다면 왼쪽으로 밀거나 ◀ 버튼으로 돌아가세요.</li>
+        <li><b>자동으로 숨 쉴 틈을 줍니다.</b> 쉼표·마침표·행·문단 끝에서 잠깐 더 머뭅니다.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="desktop-only">단축키: <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd><kbd>→</kbd> 이전/다음 · <kbd>↑</kbd><kbd>↓</kbd> 속도 · <kbd>Esc</kbd> 전체 화면 닫기</p>
+  <p class="muted">「서시」(윤동주, 1941)는 저작권 보호 기간이 끝난 공유 저작물입니다. · <a href="./">정직한 소개로 돌아가기</a></p>
+</footer>
+
+<script src="rsvp.js"></script>
+<script>
+  (function () {
+    const seosi = document.getElementById("seosi").textContent;
+    const reader = new RSVP.Reader(document.getElementById("reader"), { key: "practice", text: seosi, title: "서시 · 윤동주", wpm: 175 });
+
+    const tabs = document.querySelectorAll(".sources .chip");
+    const mine = document.getElementById("mine");
+    const ta = document.getElementById("custom-text");
+    const stats = document.getElementById("text-stats");
+    const select = src => tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.src === src));
+
+    tabs.forEach(t => t.addEventListener("click", () => {
+      select(t.dataset.src);
+      if (t.dataset.src === "seosi") {
+        mine.hidden = true;
+        reader.load(seosi, "서시 · 윤동주");
+      } else {
+        mine.hidden = false;
+        ta.focus({ preventScroll: true });
+        mine.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }));
+
+    ta.value = RSVP.store.get("custom", "");
+    const updateStats = () => {
+      const n = RSVP.wordCount(ta.value);
+      stats.textContent = n ? `${n}어절 · 약 ${Math.max(1, Math.round(n / reader.wpm * 60))}초` : "";
+    };
+    ta.addEventListener("input", () => { RSVP.store.set("custom", ta.value); updateStats(); });
+    updateStats();
+
+    document.getElementById("load-custom").addEventListener("click", () => {
+      if (!ta.value.trim()) { ta.focus(); return; }
+      ta.blur();                       // close the mobile keyboard
+      reader.load(ta.value, "내 글");
+      reader.claim();
+      document.getElementById("reader").scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => reader.play(), 400);
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# z-khan-jung · 한 단어씩 읽는 자기소개
+# 정직한 · 한 단어씩 읽는 자기소개
 
 RSVP(Rapid Serial Visual Presentation, 신속 순차 시각 제시) 방식으로 자기소개를 보여주고,
 예시 글이나 직접 붙여 넣은 글로 속독을 체험해 볼 수 있는 개인 페이지입니다.
@@ -8,11 +8,14 @@ RSVP(Rapid Serial Visual Presentation, 신속 순차 시각 제시) 방식으로
 - **청킹**: 1~3어절씩 묶어서 보여주기
 - 문장 부호와 문단 사이에서 자동으로 잠깐 멈추고, 속도는 100~1000어절/분으로 조절
 
-빌드 단계 없는 정적 사이트입니다 (`index.html`, `style.css`, `rsvp.js`, `samples.js`).
+빌드 단계 없는 정적 사이트입니다.
+- `index.html` 자기소개 (RSVP 재생 + 줄글 + 약력)
+- `rsvp.html` RSVP 소개와 체험 (윤동주 「서시」, 직접 입력, 전체 화면 모드)
+- `rsvp.js` 읽기 엔진, `style.css` 스타일
 
 ## 고치는 곳
 - 자기소개 글: `index.html`의 `<script id="intro-text">` 블록
-- 예시 글: `samples.js`
+- 체험용 기본 글: `rsvp.html`의 `<script id="seosi">` 블록
 
 ## 로컬에서 보기
 ```
