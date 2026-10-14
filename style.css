@@ -1,6 +1,7 @@
 /* Retro DOS-style theme (한글 타자연습 풍) — pixel font: Galmuri (SIL OFL, see fonts/Galmuri-LICENSE.txt) */
 @font-face { font-family: "Galmuri11"; src: url("fonts/Galmuri11.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Galmuri11"; src: url("fonts/Galmuri11-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "DOSMyungjo"; src: url("fonts/DOSMyungjo.woff") format("woff"); font-weight: 400; font-display: swap; }
 
 :root {
   --bg: #0a1a8c;          /* DOS blue */
@@ -64,7 +65,7 @@ h3 { font-size: 16px; margin: 0 0 6px; }
 .guide::after { content: ""; position: absolute; left: 50%; width: 2px; height: 10px; background: var(--ink); transform: translateX(-1px); }
 .guide.top::after { top: 0; }
 .guide.bottom::after { bottom: 0; }
-.word { display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; font-size: clamp(30px, 8vw, 48px); white-space: pre; color: var(--word); font-family: "Gowun Batang", serif; font-weight: 700; -webkit-font-smoothing: antialiased; }
+.word { display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; font-size: clamp(36px, 10vw, 56px); white-space: pre; color: var(--word); font-family: "DOSMyungjo", serif; font-weight: 400; }
 .word .l { text-align: right; overflow: hidden; }
 .word .p { color: var(--ink); }
 .word .r { text-align: left; overflow: hidden; }
@@ -151,7 +152,7 @@ textarea:focus { outline: none; background: #0d22a8; }
 .card-demo { height: 60px; display: grid; place-items: center; border-bottom: 2px solid var(--line); margin: -16px -16px 14px; position: relative; }
 .card-demo::before, .card-demo::after { content: ""; position: absolute; left: 50%; width: 2px; height: 8px; background: var(--ink); }
 .card-demo::before { top: 6px; } .card-demo::after { bottom: 6px; }
-.demo-word { font-size: 24px; color: var(--word); font-family: "Gowun Batang", serif; font-weight: 700; -webkit-font-smoothing: antialiased; }
+.demo-word { font-size: 24px; color: var(--word); font-family: "DOSMyungjo", serif; font-weight: 400; }
 .demo-word b { color: var(--ink); }
 
 /* footer = bottom status bar */
