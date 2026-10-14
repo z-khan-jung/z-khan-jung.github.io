@@ -101,8 +101,7 @@
       this.host = host;
       this.key = opts.key;
       this.wpm = 300;                     // always start at the default; not remembered between visits
-      this.size = 1;
-      this.showNeighbors = store.get(this.key + ".nb", false);
+      this.size = store.get(this.key + ".size", 1);
       this.showContext = store.get(this.key + ".ctx", opts.context !== false);
       this.idx = 0;
       this.timer = null;
@@ -120,7 +119,7 @@
         <div class="titlebar"><span class="tb-x" aria-hidden="true">×</span><span class="title"></span></div>
         <div class="stage" tabindex="0" aria-label="읽기 화면. 탭하면 재생/정지, 좌우로 밀면 이전/다음">
           <div class="guide top"></div>
-          <div class="word"><span class="l"><span class="nb prev"></span><span class="ml"></span></span><span class="p"></span><span class="r"><span class="mr"></span><span class="nb next"></span></span></div>
+          <div class="word"><span class="l"></span><span class="p"></span><span class="r"></span></div>
           <div class="guide bottom"></div>
           <div class="overlay"><span class="big-play" aria-hidden="true">▶</span><span class="overlay-msg"></span></div>
           <button class="focus-btn" type="button" data-act="focusToggle" aria-label="전체 화면" title="전체 화면">□</button>
@@ -141,7 +140,12 @@
                 <button type="button" data-wpm="250">느리게</button><button type="button" data-wpm="300">보통</button><button type="button" data-wpm="400">빠르게</button>
               </div>
             </div>
-            <label class="ctl check"><input type="checkbox" class="nbx"> 앞뒤 단어 보기</label>
+            <div class="ctl">
+              <span>묶음</span>
+              <div class="seg sizes" role="radiogroup" aria-label="한 번에 보여줄 어절 수">
+                <button type="button" data-size="1">1</button><button type="button" data-size="2">2</button><button type="button" data-size="3">3</button>
+              </div>
+            </div>
             <label class="ctl check"><input type="checkbox" class="ctx"> 문맥 보기</label>
           </div>
         </div>
@@ -149,23 +153,21 @@
 
       const $ = s => this.host.querySelector(s);
       this.el = {
-        stage: $(".stage"), word: $(".word"), l: $(".ml"), p: $(".p"), r: $(".mr"), prev: $(".prev"), next: $(".next"), overlay: $(".overlay"),
+        stage: $(".stage"), word: $(".word"), l: $(".l"), p: $(".p"), r: $(".r"), overlay: $(".overlay"),
         overlayMsg: $(".overlay-msg"), bar: $(".bar"), progress: $(".progress"),
         title: $(".title"), wpmNow: $(".wpm-now"), pos: $(".pos"), play: $(".play"), speeds: $(".speeds"),
-        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), nbx: $(".nbx")
+        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), seg: $(".sizes")
       };
       this.el.ctx.checked = this.showContext;
-      this.el.nbx.checked = this.showNeighbors;
-      this.el.nbx.addEventListener("change", () => {
-        this.showNeighbors = this.el.nbx.checked; store.set(this.key + ".nb", this.showNeighbors); this.show();
-      });
       this.syncControls();
 
       this.host.addEventListener("click", e => {
         const b = e.target.closest("[data-act]");
+        const s = e.target.closest("[data-size]");
         const w = e.target.closest("[data-wpm]");
         if (w) { this.claim(); this.setWpm(+w.dataset.wpm); return; }
         if (b) { e.stopPropagation(); this.claim(); this[b.dataset.act](); }
+        else if (s) { this.claim(); this.setSize(+s.dataset.size); }
       });
 
       // tap = play/pause, horizontal swipe = prev/next
@@ -200,6 +202,7 @@
       this.el.wpmVal.textContent = this.wpm + "어절/분";
       this.el.wpmNow.textContent = this.wpm + "어절";
       this.el.speeds.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.wpm === this.wpm));
+      this.el.seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.size === this.size));
     }
 
     load(text, title) {
@@ -213,6 +216,17 @@
       this.overlay(true, this.chunks.length ? "탭해서 시작" : "읽을 글이 없어요");
     }
 
+    setSize(n) {
+      const wordPos = this.chunks.slice(0, this.idx).reduce((a, c) => a + c.words.length, 0);
+      this.size = n; store.set(this.key + ".size", n);
+      this.chunks = chunkify(this.tokens, n);
+      let acc = 0, i = 0;
+      while (i < this.chunks.length - 1 && acc + this.chunks[i].words.length <= wordPos) acc += this.chunks[i++].words.length;
+      this.idx = i;
+      this.syncControls();
+      this.show();
+    }
+
     setWpm(v) {
       this.wpm = v;
       this.syncControls();
@@ -221,9 +235,6 @@
 
     show() {
       const c = this.chunks[this.idx];
-      const prev = this.chunks[this.idx - 1], next = this.chunks[this.idx + 1];
-      this.el.prev.textContent = this.showNeighbors && prev && !prev.para ? prev.words.join(" ") + " " : "";
-      this.el.next.textContent = this.showNeighbors && next && !c?.para ? " " + next.words.join(" ") : "";
       if (!c) { this.el.l.textContent = this.el.p.textContent = this.el.r.textContent = ""; this.updateMeta(); return; }
       const s = c.words.join(" ");
       const chars = Array.from(s);
@@ -239,8 +250,8 @@
     fit() {
       const w = this.el.word;
       w.style.fontSize = "";
-      const half = this.el.stage.clientWidth / 2 - 14 - this.el.p.getBoundingClientRect().width / 2;
-      const need = Math.max(this.el.l.getBoundingClientRect().width, this.el.r.getBoundingClientRect().width);
+      const half = this.el.stage.clientWidth / 2 - 14 - this.el.p.offsetWidth / 2;
+      const need = Math.max(this.el.l.scrollWidth, this.el.r.scrollWidth);
       if (need > half && half > 0) {
         const base = parseFloat(getComputedStyle(w).fontSize);
         w.style.fontSize = Math.max(14, Math.floor(base * half / need)) + "px";
@@ -304,7 +315,7 @@
       this.el.play.textContent = "❚❚ 정지";
       this.host.classList.add("playing");
       // short lead-in so the eye can settle on the red marks
-      this.el.l.textContent = this.el.r.textContent = this.el.prev.textContent = this.el.next.textContent = ""; this.el.p.textContent = "•";
+      this.el.l.textContent = this.el.r.textContent = ""; this.el.p.textContent = "•";
       this.timer = setTimeout(() => this.tick(), 450);
     }
 
