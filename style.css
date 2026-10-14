@@ -145,7 +145,7 @@ textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
   .ctl-row { width: 100%; justify-content: space-between; }
   .seg button { min-width: 44px; min-height: 36px; }
   .desktop-only { display: none; }
-  .timeline li { grid-template-columns: 124px 1fr; }
+  .timeline li { grid-template-columns: 72px 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -170,7 +170,7 @@ button, a, input, .stage { touch-action: manipulation; }
 .prose p { margin: 0 0 14px; }
 
 .timeline { list-style: none; padding: 0; margin: 0 0 24px; border-left: 2px solid var(--line); }
-.timeline li { display: grid; grid-template-columns: 136px 1fr; gap: 8px; padding: 8px 0 8px 16px; position: relative; font-size: 15px; }
+.timeline li { display: grid; grid-template-columns: 84px 1fr; gap: 8px; padding: 8px 0 8px 16px; position: relative; font-size: 15px; }
 .timeline li::before { content: ""; position: absolute; left: -6px; top: 16px; width: 10px; height: 10px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
 .timeline li:first-child::before { background: var(--accent); }
 .timeline .when { color: var(--muted); font-size: 13px; padding-top: 2px; font-variant-numeric: tabular-nums; }
