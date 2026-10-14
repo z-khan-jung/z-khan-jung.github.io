@@ -101,7 +101,7 @@
       this.host = host;
       this.key = opts.key;
       this.wpm = 300;                     // always start at the default; not remembered between visits
-      this.size = store.get(this.key + ".size", 1);
+      this.size = 1;
       this.showContext = store.get(this.key + ".ctx", opts.context !== false);
       this.idx = 0;
       this.timer = null;
@@ -140,12 +140,6 @@
                 <button type="button" data-wpm="250">느리게</button><button type="button" data-wpm="300">보통</button><button type="button" data-wpm="400">빠르게</button>
               </div>
             </div>
-            <div class="ctl">
-              <span>묶음</span>
-              <div class="seg sizes" role="radiogroup" aria-label="한 번에 보여줄 어절 수">
-                <button type="button" data-size="1">1</button><button type="button" data-size="2">2</button><button type="button" data-size="3">3</button>
-              </div>
-            </div>
             <label class="ctl check"><input type="checkbox" class="ctx"> 문맥 보기</label>
           </div>
         </div>
@@ -156,18 +150,16 @@
         stage: $(".stage"), word: $(".word"), l: $(".l"), p: $(".p"), r: $(".r"), overlay: $(".overlay"),
         overlayMsg: $(".overlay-msg"), bar: $(".bar"), progress: $(".progress"),
         title: $(".title"), wpmNow: $(".wpm-now"), pos: $(".pos"), play: $(".play"), speeds: $(".speeds"),
-        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), seg: $(".sizes")
+        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context")
       };
       this.el.ctx.checked = this.showContext;
       this.syncControls();
 
       this.host.addEventListener("click", e => {
         const b = e.target.closest("[data-act]");
-        const s = e.target.closest("[data-size]");
         const w = e.target.closest("[data-wpm]");
         if (w) { this.claim(); this.setWpm(+w.dataset.wpm); return; }
         if (b) { e.stopPropagation(); this.claim(); this[b.dataset.act](); }
-        else if (s) { this.claim(); this.setSize(+s.dataset.size); }
       });
 
       // tap = play/pause, horizontal swipe = prev/next
@@ -202,7 +194,6 @@
       this.el.wpmVal.textContent = this.wpm + "어절/분";
       this.el.wpmNow.textContent = this.wpm + "어절";
       this.el.speeds.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.wpm === this.wpm));
-      this.el.seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.size === this.size));
     }
 
     load(text, title) {
@@ -214,17 +205,6 @@
       this.el.title.textContent = title || "";
       this.show();
       this.overlay(true, this.chunks.length ? "탭해서 시작" : "읽을 글이 없어요");
-    }
-
-    setSize(n) {
-      const wordPos = this.chunks.slice(0, this.idx).reduce((a, c) => a + c.words.length, 0);
-      this.size = n; store.set(this.key + ".size", n);
-      this.chunks = chunkify(this.tokens, n);
-      let acc = 0, i = 0;
-      while (i < this.chunks.length - 1 && acc + this.chunks[i].words.length <= wordPos) acc += this.chunks[i++].words.length;
-      this.idx = i;
-      this.syncControls();
-      this.show();
     }
 
     setWpm(v) {
