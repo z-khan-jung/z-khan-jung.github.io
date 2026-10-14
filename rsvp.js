@@ -116,15 +116,16 @@
     render() {
       this.host.classList.add("reader");
       this.host.innerHTML = `
+        <div class="titlebar"><span class="tb-x" aria-hidden="true">×</span><span class="title"></span></div>
         <div class="stage" tabindex="0" aria-label="읽기 화면. 탭하면 재생/정지, 좌우로 밀면 이전/다음">
           <div class="guide top"></div>
           <div class="word"><span class="l"></span><span class="p"></span><span class="r"></span></div>
           <div class="guide bottom"></div>
           <div class="overlay"><span class="big-play" aria-hidden="true">▶</span><span class="overlay-msg"></span></div>
-          <button class="focus-btn" type="button" data-act="focusToggle" aria-label="전체 화면" title="전체 화면">⤢</button>
+          <button class="focus-btn" type="button" data-act="focusToggle" aria-label="전체 화면" title="전체 화면">□</button>
         </div>
         <div class="progress" role="slider" aria-label="진행 위치" tabindex="0"><div class="bar"></div></div>
-        <div class="meta"><span class="title"></span><span class="pos"></span></div>
+        <div class="meta"><span class="speed-cell">현재속도 :<b class="wpm-now"></b></span><span class="pos"></span></div>
         <div class="controls">
           <div class="transport">
             <button class="btn ghost" type="button" data-act="restart" aria-label="처음부터">⏮</button>
@@ -154,7 +155,7 @@
       this.el = {
         stage: $(".stage"), word: $(".word"), l: $(".l"), p: $(".p"), r: $(".r"), overlay: $(".overlay"),
         overlayMsg: $(".overlay-msg"), bar: $(".bar"), progress: $(".progress"),
-        title: $(".title"), pos: $(".pos"), play: $(".play"), speeds: $(".speeds"),
+        title: $(".title"), wpmNow: $(".wpm-now"), pos: $(".pos"), play: $(".play"), speeds: $(".speeds"),
         wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), seg: $(".sizes")
       };
       this.el.ctx.checked = this.showContext;
@@ -199,6 +200,7 @@
 
     syncControls() {
       this.el.wpmVal.textContent = this.wpm + "어절/분";
+      this.el.wpmNow.textContent = this.wpm + "어절";
       this.el.speeds.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.wpm === this.wpm));
       this.el.seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.size === this.size));
     }
@@ -270,7 +272,7 @@
       this.el.bar.style.width = (pct * 100) + "%";
       this.el.progress.setAttribute("aria-valuenow", Math.round(pct * 100));
       const remain = this.chunks.slice(this.idx).reduce((a, c) => a + delayFor(c, this.wpm), 0) / 1000;
-      this.el.pos.textContent = n ? `${this.idx + 1} / ${n} · 남은 시간 ${remain < 60 ? Math.ceil(remain) + "초" : Math.ceil(remain / 60) + "분"}` : "";
+      this.el.pos.textContent = n ? `진행 :${this.idx + 1}/${n} · ${remain < 60 ? Math.ceil(remain) + "초" : Math.ceil(remain / 60) + "분"}` : "";
       if (this.showContext && n) {
         const from = Math.max(0, this.idx - 5), to = Math.min(n, this.idx + 6);
         const html = [];
@@ -343,7 +345,7 @@
       const on = typeof force === "boolean" ? force : !this.host.classList.contains("focus");
       this.host.classList.toggle("focus", on);
       document.body.classList.toggle("no-scroll", on);
-      this.host.querySelector(".focus-btn").textContent = on ? "✕" : "⤢";
+      this.host.querySelector(".focus-btn").textContent = on ? "✕" : "□";
       this.host.querySelector(".focus-btn").setAttribute("aria-label", on ? "전체 화면 닫기" : "전체 화면");
       requestAnimationFrame(() => this.fit());
     }
