@@ -81,17 +81,18 @@
     const last = chunk.words[chunk.words.length - 1];
     let ms = base * (chunk.words.length === 1 ? 1 : chunk.words.length * 0.85);
     const longest = Math.max(...chunk.words.map(w => Array.from(w).length));
-    if (longest > (HANGUL.test(last) ? 5 : 8)) ms *= 1.25;
-    if (END.test(last)) ms *= 2.2;
-    else if (COMMA.test(last)) ms *= 1.5;
-    if (chunk.para) ms *= 1.6;
-    else if (chunk.line) ms *= 1.5;
+    if (longest > (HANGUL.test(last) ? 5 : 8)) ms *= 1.15;
+    if (END.test(last)) ms *= 1.6;
+    else if (COMMA.test(last)) ms *= 1.25;
+    if (chunk.para) ms *= 1.4;
+    else if (chunk.line) ms *= 1.2;
     return ms;
   }
 
   const esc = s => s.replace(/[&<>]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[ch]));
 
   // ---------- Reader component ----------
+  const SPEEDS = [250, 300, 400];
   const readers = [];
   let activeReader = null;
 
@@ -99,7 +100,7 @@
     constructor(host, opts) {
       this.host = host;
       this.key = opts.key;
-      this.wpm = store.get(this.key + ".wpm", opts.wpm || 250);
+      this.wpm = 300;                     // always start at the default; not remembered between visits
       this.size = store.get(this.key + ".size", 1);
       this.showContext = store.get(this.key + ".ctx", opts.context !== false);
       this.idx = 0;
@@ -131,14 +132,16 @@
             <button class="btn primary play" type="button" data-act="toggle">▶ 재생</button>
             <button class="btn ghost" type="button" data-act="next" aria-label="다음">▶</button>
           </div>
-          <label class="ctl speed">
-            <span>속도 <b class="wpm-val"></b><small> 어절/분</small></span>
-            <input type="range" class="wpm" min="100" max="1000" step="25">
-          </label>
           <div class="ctl-row">
             <div class="ctl">
+              <span>속도 <small class="wpm-val"></small></span>
+              <div class="seg speeds" role="radiogroup" aria-label="읽기 속도">
+                <button type="button" data-wpm="250">느리게</button><button type="button" data-wpm="300">보통</button><button type="button" data-wpm="400">빠르게</button>
+              </div>
+            </div>
+            <div class="ctl">
               <span>묶음</span>
-              <div class="seg" role="radiogroup" aria-label="한 번에 보여줄 어절 수">
+              <div class="seg sizes" role="radiogroup" aria-label="한 번에 보여줄 어절 수">
                 <button type="button" data-size="1">1</button><button type="button" data-size="2">2</button><button type="button" data-size="3">3</button>
               </div>
             </div>
@@ -151,16 +154,17 @@
       this.el = {
         stage: $(".stage"), word: $(".word"), l: $(".l"), p: $(".p"), r: $(".r"), overlay: $(".overlay"),
         overlayMsg: $(".overlay-msg"), bar: $(".bar"), progress: $(".progress"),
-        title: $(".title"), pos: $(".pos"), play: $(".play"), wpm: $(".wpm"),
-        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), seg: $(".seg")
+        title: $(".title"), pos: $(".pos"), play: $(".play"), speeds: $(".speeds"),
+        wpmVal: $(".wpm-val"), ctx: $(".ctx"), context: $(".context"), seg: $(".sizes")
       };
-      this.el.wpm.value = this.wpm;
       this.el.ctx.checked = this.showContext;
       this.syncControls();
 
       this.host.addEventListener("click", e => {
         const b = e.target.closest("[data-act]");
         const s = e.target.closest("[data-size]");
+        const w = e.target.closest("[data-wpm]");
+        if (w) { this.claim(); this.setWpm(+w.dataset.wpm); return; }
         if (b) { e.stopPropagation(); this.claim(); this[b.dataset.act](); }
         else if (s) { this.claim(); this.setSize(+s.dataset.size); }
       });
@@ -180,7 +184,6 @@
         this.claim(); this.toggle();
       });
       this.el.stage.addEventListener("focus", () => this.claim());
-      this.el.wpm.addEventListener("input", () => { this.claim(); this.setWpm(+this.el.wpm.value); });
       this.el.ctx.addEventListener("change", () => {
         this.showContext = this.el.ctx.checked; store.set(this.key + ".ctx", this.showContext); this.updateMeta();
       });
@@ -195,7 +198,8 @@
     claim() { activeReader = this; }
 
     syncControls() {
-      this.el.wpmVal.textContent = this.wpm;
+      this.el.wpmVal.textContent = this.wpm + "어절/분";
+      this.el.speeds.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.wpm === this.wpm));
       this.el.seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.size === this.size));
     }
 
@@ -222,9 +226,7 @@
     }
 
     setWpm(v) {
-      this.wpm = Math.max(100, Math.min(1000, v));
-      this.el.wpm.value = this.wpm;
-      store.set(this.key + ".wpm", this.wpm);
+      this.wpm = v;
       this.syncControls();
       this.updateMeta();
     }
@@ -358,8 +360,8 @@
       case " ": e.preventDefault(); r.toggle(); break;
       case "ArrowLeft": e.preventDefault(); r.prev(); break;
       case "ArrowRight": e.preventDefault(); r.next(); break;
-      case "ArrowUp": e.preventDefault(); r.setWpm(r.wpm + 25); break;
-      case "ArrowDown": e.preventDefault(); r.setWpm(r.wpm - 25); break;
+      case "ArrowUp": e.preventDefault(); r.setWpm(SPEEDS[Math.min(2, SPEEDS.indexOf(r.wpm) + 1)]); break;
+      case "ArrowDown": e.preventDefault(); r.setWpm(SPEEDS[Math.max(0, SPEEDS.indexOf(r.wpm) - 1)]); break;
       case "Escape": r.focusToggle(false); break;
     }
   });

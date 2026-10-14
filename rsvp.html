@@ -119,7 +119,7 @@
 </main>
 
 <footer class="foot">
-  <p class="desktop-only">단축키: <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd><kbd>→</kbd> 이전/다음 · <kbd>↑</kbd><kbd>↓</kbd> 속도 · <kbd>Esc</kbd> 전체 화면 닫기</p>
+  <p class="desktop-only">단축키: <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd><kbd>→</kbd> 이전/다음 · <kbd>↑</kbd><kbd>↓</kbd> 빠르게/느리게 · <kbd>Esc</kbd> 전체 화면 닫기</p>
   <p class="muted">「별 헤는 밤」(윤동주, 1941)는 저작권 보호 기간이 끝난 공유 저작물입니다. · <a href="./">정직한 소개로 돌아가기</a></p>
 </footer>
 
@@ -127,7 +127,7 @@
 <script>
   (function () {
     const seosi = document.getElementById("seosi").textContent;
-    const reader = new RSVP.Reader(document.getElementById("reader"), { key: "practice.v2", text: seosi, title: "별 헤는 밤 · 윤동주", wpm: 300 });
+    const reader = new RSVP.Reader(document.getElementById("reader"), { key: "practice", text: seosi, title: "별 헤는 밤 · 윤동주" });
 
     const tabs = document.querySelectorAll(".sources .chip");
     const mine = document.getElementById("mine");
