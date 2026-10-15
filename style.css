@@ -199,6 +199,8 @@ body.no-scroll { overflow: hidden; }
 .stats dd { margin: 0; }
 @media (max-width: 600px) {
   .portrait-win { margin-right: 8px; box-shadow: 8px 8px 0 var(--bg-deep); }
-  .portrait-body { justify-content: center; }
-  .portrait { width: 150px; height: 200px; }
+  .portrait-body { flex-wrap: nowrap; gap: 14px; padding: 12px; }
+  .portrait { width: 120px; height: 160px; flex-shrink: 0; }
+  .stats { font-size: 13px; gap: 4px 10px; }
+  .stats .muted { display: block; }
 }
