@@ -188,3 +188,17 @@ body.no-scroll { overflow: hidden; }
 .hint b, .meta b, .prose-toggle summary, .input-label { color: var(--ink); }
 .prose-toggle[open] summary { background: none; color: var(--ink); border-bottom: 2px solid var(--line); }
 .stage:focus-visible { outline-color: var(--ink); }
+
+/* portrait window, DOS-game character sheet style */
+.portrait-sec { padding-bottom: 8px; }
+.portrait-win { border: 2px solid var(--line); box-shadow: 12px 12px 0 var(--bg-deep); margin-right: 12px; max-width: 560px; }
+.portrait-body { display: flex; gap: 20px; align-items: center; padding: 16px; flex-wrap: wrap; }
+.portrait { width: 180px; height: 240px; image-rendering: pixelated; image-rendering: crisp-edges; border: 2px solid var(--line); outline: 2px solid var(--bg-deep); outline-offset: 2px; display: block; }
+.stats { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 15px; }
+.stats dt { color: var(--muted); }
+.stats dd { margin: 0; }
+@media (max-width: 600px) {
+  .portrait-win { margin-right: 8px; box-shadow: 8px 8px 0 var(--bg-deep); }
+  .portrait-body { justify-content: center; }
+  .portrait { width: 150px; height: 200px; }
+}
